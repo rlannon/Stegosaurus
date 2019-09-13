@@ -9,7 +9,7 @@ The algorithm for least significant bit steganography
 from PIL import Image
 
 
-def en_steg_lsb(image, message):
+def hide_message(image, message):
     """Puts 'message' in an image 'image'. First, the algorithm checks to see whether the image is big enough to contain
     the message. If not, it prints an error message and returns None; if it can, it stores the message in the 2 least
     significant bytes of each pixel's RGBA values.
@@ -17,6 +17,7 @@ def en_steg_lsb(image, message):
     This function returns the modified image object.
     The header of the file contains a 3-byte header, 4 bytes for the message length, and 1 byte for is_string"""
 
+    print("Hiding message...")
     image = image.convert("RGBA")
 
     # Message size must be smaller than (number of pixels - 5); we need 4 for the length and 1 for bool is_string
@@ -150,13 +151,15 @@ def en_steg_lsb(image, message):
     return image
 
 
-def de_steg_lsb(image):
+def reveal_message(image):
     """Takes an image object as parameter and returns the steganographic message within."""
     len_array = []
     msg_len = 0
     byte_ptr = 0
     is_string = False
     msg_byte_array = bytearray()
+
+    print("Fetching message...")
 
     for row in range(0, image.height):
         for col in range(0, image.width):
